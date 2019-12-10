@@ -1,7 +1,6 @@
 package goapple
 
 import (
-	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"strings"
 )
@@ -41,8 +40,6 @@ func parseDataFormBase64(s string) (string, error) {
 
 	if len(xs) >= 1 {
 		dstr := xs[1]
-
-		fmt.Println(dstr)
 
 		b, err :=jwt.DecodeSegment(dstr)
 
