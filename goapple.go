@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-
+//Config store credentials for login process
 type Config struct {
 	ClientID string
 	ClientSecret
@@ -12,11 +12,13 @@ type Config struct {
 	PrivateKey string
 }
 
+//ClienSecret store depenedencies especially uses for create jwt client secrets
 type ClientSecret struct {
 	ISS, AUD, SUB, KID string
 	IAT, EXP int
 }
 
+//User store Apple user data after successfully login
 type User struct {
 
 }
