@@ -1,7 +1,7 @@
 package goapple
 
 import (
-	"fmt"
+	"encoding/json"
 )
 
 //Config store credentials for login process
@@ -18,13 +18,22 @@ type ClientSecret struct {
 	IAT, EXP           int
 }
 
-//User store Apple user data after successfully login
-type User struct {
+type AppleLoginResponse struct {
+	IDToken string `json:"id_token"`
+}
+
+//UserPaylod store AppleAppleLoginResponse parsed data
+type UserPayload struct {
+	Email string `json:"email"`
+	EmailVerified bool `json:"email_verified"`
+	IsPrivateEmail bool `json:"is_private_email"`
 }
 
 //Login login with apple
-func Login(code string, c *Config) (*User, error) {
-	var u User
+func Login(code string, c *Config) (*UserPayload, error) {
+	var u UserPayload
+	var appleLoginRes AppleLoginResponse
+
 	secret, err := createJWTClientSecret(c)
 
 	if err != nil {
@@ -39,8 +48,25 @@ func Login(code string, c *Config) (*User, error) {
 		return nil, FetchLoginDataErr
 	}
 
-	fmt.Println("The secret", secret)
-	fmt.Println("Apple data", s)
+	//decode first step data and get id_token
+	err = json.Unmarshal([]byte(s), &appleLoginRes)
+	if err != nil || appleLoginRes.IDToken == "" {
+		return nil, err
+	}
+
+	//parse id_token and get user apple data
+	dataStr, err := parseDataFormBase64(appleLoginRes.IDToken)
+
+	if err != nil {
+		return nil, err
+	}
+
+	//decode user apple data
+	err = json.Unmarshal([]byte(dataStr), &u)
+
+	if u.Email == "" || err != nil {
+		return nil, err
+	}
 
 	return &u, err
 }

@@ -1,6 +1,10 @@
 package goapple
 
-import "github.com/dgrijalva/jwt-go"
+import (
+	"fmt"
+	"github.com/dgrijalva/jwt-go"
+	"strings"
+)
 
 
 //createJWTClientSecret create apple client secret with given private key
@@ -23,4 +27,31 @@ func createJWTClientSecret(c *Config) (string, error) {
 	}
 
 	return s, nil
+}
+
+
+//parseDataFormBase64 decode base64 encoded string and get data
+func parseDataFormBase64(s string) (string, error) {
+
+	if !strings.Contains(s, ".") {
+		return "", DecodeErr
+	}
+
+	xs := strings.Split(s, ".")
+
+	if len(xs) >= 1 {
+		dstr := xs[1]
+
+		fmt.Println(dstr)
+
+		b, err :=jwt.DecodeSegment(dstr)
+
+		if err != nil {
+			return "", err
+		}
+
+		return string(b), nil
+	}
+
+	return "", DecodeErr
 }
