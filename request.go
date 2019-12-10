@@ -13,7 +13,7 @@ import (
 func fetchLoginData(code string, c *Config) (string, error) {
 	v := url.Values{}
 	v.Set("client_id", c.ClientID)
-	v.Set("client_secret", c.PrivateKey)
+	v.Set("client_secret", c.PrivateKey.(string))
 	v.Set("code", code)
 	v.Set("grant_type", c.GrantType)
 	vs := v.Encode()
