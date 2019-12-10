@@ -36,9 +36,10 @@ func fetchLoginData(code string, c *Config) (string, error) {
 	}
 
 	s, err := ioutil.ReadAll(res.Body)
+
 	if err != nil {
 		return "", err
 	}
 
-	return s, nil
+	return string(s), nil
 }
