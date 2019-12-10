@@ -8,19 +8,18 @@ import (
 type Config struct {
 	ClientID string
 	ClientSecret
-	GrantType string
-	PrivateKey string
+	GrantType  string
+	PrivateKey interface{}
 }
 
 //ClienSecret store depenedencies especially uses for create jwt client secrets
 type ClientSecret struct {
 	ISS, AUD, SUB, KID string
-	IAT, EXP int
+	IAT, EXP           int
 }
 
 //User store Apple user data after successfully login
 type User struct {
-
 }
 
 //Login login with apple
