@@ -3,6 +3,7 @@ package goapple
 import (
 	"bytes"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 )
@@ -32,14 +33,16 @@ func fetchLoginData(code string, c *Config) (string, error) {
 	res, err := client.Do(req)
 
 	if err != nil {
+		log.Println(err)
 		return "", err
 	}
 
 	s, err := ioutil.ReadAll(res.Body)
 
 	if err != nil {
+		log.Println(err)
 		return "", err
 	}
-
+	log.Println(string(s))
 	return string(s), nil
 }
