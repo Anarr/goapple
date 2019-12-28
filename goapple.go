@@ -2,6 +2,7 @@ package goapple
 
 import (
 	"encoding/json"
+	"log"
 )
 
 //Config store credentials for login process
@@ -51,6 +52,7 @@ func Login(code string, c *Config) (*UserPayload, error) {
 	//decode first step data and get id_token
 	err = json.Unmarshal([]byte(s), &appleLoginRes)
 	if err != nil || appleLoginRes.IDToken == "" {
+		log.Println(err)
 		return nil, err
 	}
 
@@ -58,6 +60,7 @@ func Login(code string, c *Config) (*UserPayload, error) {
 	dataStr, err := parseDataFormBase64(appleLoginRes.IDToken)
 
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
@@ -65,6 +68,7 @@ func Login(code string, c *Config) (*UserPayload, error) {
 	err = json.Unmarshal([]byte(dataStr), &u)
 
 	if u.Email == "" || err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
