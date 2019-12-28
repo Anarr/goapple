@@ -39,6 +39,7 @@ func Login(code string, c *Config) (*UserPayload, error) {
 	secret, err := createJWTClientSecret(c)
 
 	if err != nil {
+		log.Println(err)
 		return nil, ClientSecretErr
 	}
 
@@ -47,6 +48,7 @@ func Login(code string, c *Config) (*UserPayload, error) {
 	s, err := fetchLoginData(code, c)
 
 	if err != nil {
+		log.Println(err)
 		return nil, FetchLoginDataErr
 	}
 	//decode first step data and get id_token
