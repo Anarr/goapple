@@ -18,7 +18,7 @@ func fetchLoginData(code string, c *Config) (string, error) {
 	v.Set("grant_type", c.GrantType)
 	vs := v.Encode()
 
-	req, err := http.NewRequest("POST", AppleLoginURL, bytes.NewBuffer([]byte(vs)))
+	req, err := http.NewRequest("POST", appleLoginURL, bytes.NewBuffer([]byte(vs)))
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Add("User-Agent", "curl")
 	req.Header.Add("Accept", "application/json")

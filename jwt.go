@@ -17,7 +17,7 @@ func createJWTClientSecret(c *Config) (string, error) {
 	})
 
 	t.Header["kid"] =c.KID
-	t.Header["alg"] = ALG
+	t.Header["alg"] = alg
 
 	s, err := t.SignedString(c.PrivateKey)
 
